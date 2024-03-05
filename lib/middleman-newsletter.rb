@@ -5,6 +5,9 @@ Middleman::Extensions.register :newsletter do
 
   module ::Tilt
     class Mapping
+      # This was added in Tilt 2.1, but middleman-core is tied to ~> 2.0.9.
+      # So, backport, but guard it in case middleman-core updates to permit
+      # more modern tilt versions.
       if !method_defined?(:unregister)
         def unregister(*extensions)
           extensions.each do |ext|
