@@ -1,10 +1,6 @@
 # Require core library
 require 'middleman-core'
-require 'middleman-newsletter/newsletter'
-require 'middleman-newsletter/blog_article_extensions'
-require 'middleman-newsletter/kramdown'
 
-require 'premailer'
 
 # Extension namespace
 module Middleman
@@ -22,26 +18,23 @@ module Middleman
       # Call super to build options from the options_hash
       super
 
-      # Require libraries only when activated
-      # require 'necessary/library'
+      require 'middleman-newsletter/newsletter'
+      require 'middleman-newsletter/blog_article_extensions'
+      require 'middleman-newsletter/kramdown'
 
-      # set up your extension
-      # puts options.my_option
+      require 'premailer'
     end
 
     def after_configuration
-      logger.info "== Newsletter Extension after_configuration"
       app.sitemap.register_resource_list_manipulator(:newsletter_generator, self)
     end
 
     def after_build
-      logger.info "== Newsletter Extension after_build #{@_newsletters.length}"
       @_newsletters.each do |r|
         r.render({}, {})
       end
     end
 
-    # A Sitemap Manipulator
     def manipulate_resource_list(resources)
       @_newsletters = []
       resources.each do |resource|
@@ -70,10 +63,5 @@ module Middleman
 
       newsletter
     end
-
-    # helpers do
-    #   def a_helper
-    #   end
-    # end
   end
 end
