@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("middleman-core", [">= 4.4.0"])
   s.add_runtime_dependency("middleman-blog", [">= 4.0.3"])
   s.add_runtime_dependency("premailer", ["~> 1.22"])
+  s.add_runtime_dependency("sendgrid-ruby", ["~> 6.7"])
 
   # Additional dependencies
   # s.add_runtime_dependency("gem-name", "gem-version")
