@@ -2,6 +2,7 @@ module Middleman
   module Newsletter
     def self.extended(base)
       base.class.send(:attr_accessor, :newsletter_controller)
+      base.class.send(:attr_accessor, :source_resource)
     end
 
     def newsletter_options
