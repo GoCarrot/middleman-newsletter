@@ -48,6 +48,14 @@ module Middleman
         attr = el.attr.dup
         attr['class'] = ["max-width", *attr['class']].compact.join(' ')
         link = attr.delete('src')
+        # Attempt to manually run the asset host extension, since it's dependent on pulling data
+        # from Rack normally, and we're directly rendering our content.
+        if scope.extensions[:asset_host]
+          uri = ::Middleman::Util.parse_uri(link)
+          if uri.relative? && uri.host.nil?
+            link = scope.extensions[:asset_host].rewrite_url(link, ::Pathname.new('/'), '')
+          end
+        end
         scope.image_tag(link, attr)
       end
 
