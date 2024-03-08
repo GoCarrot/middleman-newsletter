@@ -15,6 +15,9 @@ module Middleman
     option :layout, 'layout', 'Newsletter specific layout'
     option :sendgrid_api_key, nil, 'API Key for SendGrid -- must have marketing access.'
     option :sendgrid_category, 'newsletters', 'Category assigned to all managed single sends in SendGrid.'
+    option :subject_line, proc { |newsletter| newsletter.source_resource.title }, 'A proc that takes the newsletter resource and returns the subject line for the email. Defaults to the source blog post title.'
+    option :preview_text, proc { |newsletter| newsletter.source_resource.description }, 'A proc that takes the newsletter resource and returns preview text for the email. Defaults to the source blog post description.'
+    option :content_modifier, proc { |_newsletter, content| content }, 'A proc that takes the newsletter resource and rendered HTML for the newsletter and can return modified content.'
 
     def initialize(app, options_hash={}, &block)
       # Call super to build options from the options_hash
@@ -83,6 +86,10 @@ module Middleman
 
   private
 
+    def render_newsletter(newsletter)
+      newsletter.render({}, {})
+    end
+
     def sendgrid_client
       @sendgrid_client ||= SendGrid::API.new(api_key: options.sendgrid_api_key).client
     end
@@ -96,8 +103,8 @@ module Middleman
           name: name,
           categories: [options.sendgrid_category],
           email_config: {
-            subject: name,
-            html_content: newsletter.render({}, {})
+            subject: options.subject_line.call(newsletter),
+            html_content: render_newsletter(newsletter)
           }
         }
       )
@@ -110,8 +117,8 @@ module Middleman
       sendgrid_client.marketing.singlesends._(singlesend_id).patch(
         request_body: {
           email_config: {
-            subject: name,
-            html_content: newsletter.render({}, {})
+            subject: options.subject_line.call(newsletter),
+            html_content: render_newsletter(newsletter)
           }
         }
       )

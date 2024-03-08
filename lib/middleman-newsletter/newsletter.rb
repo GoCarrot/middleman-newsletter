@@ -18,7 +18,12 @@ module Middleman
         opts[:layout] = opts[:layout].to_s if opts[:layout].is_a? Symbol
       end
 
+      unless locs.key?(:preview_text)
+        locs[:preview_text] = newsletter_options.preview_text.call(self)
+      end
+
       content = with_email_renderer { super(opts, locs, &block) }
+      content = newsletter_options.content_modifier.call(self, content)
 
       Premailer.new(content, with_html_string: true, output_encoding: 'UTF-8', input_encoding: 'UTF-8').to_inline_css
     end
