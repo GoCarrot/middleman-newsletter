@@ -16,7 +16,7 @@ module Middleman
     option :sendgrid_api_key, nil, 'API Key for SendGrid -- must have marketing access.'
     option :sendgrid_category, 'newsletters', 'Category assigned to all managed single sends in SendGrid.'
     option :subject_line, proc { |newsletter| newsletter.source_resource.title }, 'A proc that takes the newsletter resource and returns the subject line for the email. Defaults to the source blog post title.'
-    option :preview_text, proc { |newsletter| newsletter.source_resource.description }, 'A proc that takes the newsletter resource and returns preview text for the email. Defaults to the source blog post description.'
+    option :preview_text, proc { |newsletter| newsletter.source_resource.data.description }, 'A proc that takes the newsletter resource and returns preview text for the email. Defaults to the source blog post description.'
     option :content_modifier, proc { |_newsletter, content| content }, 'A proc that takes the newsletter resource and rendered HTML for the newsletter and can return modified content.'
 
     def initialize(app, options_hash={}, &block)
