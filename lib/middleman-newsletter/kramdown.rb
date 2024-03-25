@@ -23,7 +23,7 @@ module Middleman
     class MiddlemanKramdownEmailHtmlConverter < ::Kramdown::Converter::Html
       cattr_accessor :scope
 
-      BLANK_LINE = %(<div class="paragraph-break"><br></div)
+      BLANK_LINE = %(<div class="paragraph-break"><br></div>)
       TABLE_PREAMBLE = %(<table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><div>)
       TABLE_POSTFIX = %(<br></div>#{BLANK_LINE}</td></tr></tbody></table>)
       def convert_p(el, indent)
