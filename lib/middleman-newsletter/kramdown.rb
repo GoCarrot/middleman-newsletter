@@ -61,7 +61,11 @@ module Middleman
 
       def convert_br(_el, _indent)
         if @stack.last&.type == :p
-          "</span></div>\n<div><span>"
+          if @stack.last&.options[:transparent]
+            "<br/>"
+          else
+            "</span></div>\n<div><span>"
+          end
         else
           ''
         end
