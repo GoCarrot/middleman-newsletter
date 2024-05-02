@@ -97,7 +97,7 @@ module Middleman
     def create_in_sendgrid(newsletter)
       blog = newsletter.source_resource
       name = blog.title
-      logger.info("== Creating Single Send for #{name}")
+      logger.info("== Newsletter: Creating Single Send for #{name}")
       sendgrid_client.marketing.singlesends.post(
         request_body: {
           name: name,
@@ -113,7 +113,7 @@ module Middleman
     def update_in_sendgrid(singlesend_id, newsletter)
       blog = newsletter.source_resource
       name = blog.title
-      logger.info("== Updating Single Send for #{name}, sg id #{singlesend_id}")
+      logger.info("== Newsletter: Updating Single Send for #{name}, sg id #{singlesend_id}")
       sendgrid_client.marketing.singlesends._(singlesend_id).patch(
         request_body: {
           email_config: {
@@ -126,7 +126,7 @@ module Middleman
 
     def destroy_in_sendgrid(singlesend)
       id = singlesend[:id]
-      logger.info("== Destroying Single Send #{singlesend[:name]}, sg id #{id}")
+      logger.info("== Newsletter: Destroying Single Send #{singlesend[:name]}, sg id #{id}")
       sendgrid_client.marketing.singlesends._(id).delete()
     end
 
