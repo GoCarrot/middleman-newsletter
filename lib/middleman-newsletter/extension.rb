@@ -42,7 +42,7 @@ module Middleman
 
       require 'sendgrid-ruby'
 
-      expected_newsletters = @_newsletters.each_with_object({}) { |r, h| h[r.source_resource.title] = r unless r.source_resource.data['publish_newsletter'] == false }
+      expected_newsletters = @_newsletters.each_with_object({}) { |r, h| h[r.source_resource.title] = r if r.source_resource.data['publish_newsletter'] }
       live_newsletters = extant_newsletters.each_with_object({}) { |r, h| h[r[:name]] = r }
 
       to_update = []
