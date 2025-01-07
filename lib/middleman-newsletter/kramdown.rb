@@ -48,6 +48,8 @@ module Middleman
         attr = el.attr.dup
         attr['class'] = ["max-width", *attr['class']].compact.join(' ')
         link = attr.delete('src')
+        # Request from SEO meeting -- strip alt tag for emails
+        attr.delete('alt')
         # Attempt to manually run the asset host extension, since it's dependent on pulling data
         # from Rack normally, and we're directly rendering our content.
         if scope.extensions[:asset_host]
